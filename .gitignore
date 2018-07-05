@@ -1,0 +1,7 @@
+# IDEEA files
+.idea/
+#iml
+*.iml
+
+#Compiled files
+out/
