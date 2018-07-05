@@ -1,21 +1,36 @@
 package com.interlink.employee;
 
-import com.interlink.salary.SalaryRange;
+import com.interlink.salary.SalaryType;
 
-public class Employee {
-    private String fullName;
-    private SalaryRange salaryRange;
+public abstract class Employee {
+    protected final int id;
+    protected String fullName;
+    protected SalaryType salaryType;
+    protected String post;
 
-    protected Employee(String fullName) {
+    public Employee(int id, String fullName, SalaryType salaryType) {
+        this.id = id;
         this.fullName = fullName;
+        this.salaryType = salaryType;
     }
 
     public String getFullName() {
         return fullName;
     }
 
-    public SalaryRange getSalaryRange() {
-        return salaryRange;
+    public SalaryType getSalaryType() {
+        return salaryType;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    protected void setPost(String post) {
+        this.post = post;
+    }
 }

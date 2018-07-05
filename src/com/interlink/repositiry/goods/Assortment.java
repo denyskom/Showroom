@@ -1,21 +1,21 @@
 package com.interlink.repositiry.goods;
 
-import com.interlink.product.AssortmentPosition;
-import com.interlink.product.Product;
+import com.interlink.repositiry.goods.position.AssortmentPosition;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface Assortment {
 
     List<AssortmentPosition> getAssortment();
 
-    AssortmentPosition getPositionById(int id);
-
-    AssortmentPosition getPositionByName(String name);
+    Optional<AssortmentPosition> getPositionById(int id);
 
     void addPosition(AssortmentPosition position);
 
-    void updatePosition(int id);
+    void updatePosition(int id, int productsCount);
+
+    void salePosition(int id, int productsCount);
 
     void removePosition(int id);
 

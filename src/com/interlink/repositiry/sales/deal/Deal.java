@@ -1,18 +1,19 @@
 package com.interlink.repositiry.sales.deal;
 
-import com.interlink.employee.Employee;
+import com.interlink.employee.manager.Salesman;
 import com.interlink.product.Product;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public abstract class Deal {
-    private int id;
+public class Deal {
+    private final int id;
     private List<Product> products;
     private LocalDate date;
-    private Employee seller;
+    private Salesman seller;
+    private boolean valid = true;
 
-    public Deal(int id, List<Product> products, LocalDate date, Employee seller) {
+    public Deal(int id, List<Product> products, LocalDate date, Salesman seller) {
         this.id = id;
         this.products = products;
         this.date = date;
@@ -31,12 +32,20 @@ public abstract class Deal {
         return date;
     }
 
-    public Employee getSeller() {
+    public Salesman getSeller() {
         return seller;
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 
     public double getTotalPrice() {
        return products.stream()
-               .map(Product::getPrice).count();
+               .mapToDouble(Product::getPrice).sum();
     }
 }
