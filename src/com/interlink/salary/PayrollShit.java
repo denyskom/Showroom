@@ -11,6 +11,7 @@ import java.util.Map;
 public class PayrollShit {
     private Sales sales;
     private Staff staff;
+    private int managerPercent = 20;
 
 
     public PayrollShit(Sales sales, Staff staff) {
@@ -20,9 +21,12 @@ public class PayrollShit {
 
     private Map<Employee, Double> countSalary(Month month) {
         Map<Employee, Double> salaries = new HashMap<>();
+//        staff.getStuff().stream().map()
         return null;
 
     }
 
-
+    public void setManagerPercent(int managerPercent) {
+        this.managerPercent = managerPercent;
+    }
 }
