@@ -1,10 +1,10 @@
 package com.interlink.employee;
 
-import com.interlink.salary.SalaryType;
+import com.interlink.salary.SalaryRange;
 
-public abstract class Employee {
-    protected String fullName;
-    protected SalaryType salaryType;
+public class Employee {
+    private String fullName;
+    private SalaryRange salaryRange;
 
     protected Employee(String fullName) {
         this.fullName = fullName;
@@ -14,8 +14,8 @@ public abstract class Employee {
         return fullName;
     }
 
-    public SalaryType getSalaryType() {
-        return salaryType;
+    public SalaryRange getSalaryRange() {
+        return salaryRange;
     }
 
 }
