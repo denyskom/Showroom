@@ -4,6 +4,7 @@ import com.interlink.employee.fixed.FixedSalary;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,7 +18,7 @@ public class ShowroomSalaryRange implements SalaryRange {
 
     @Override
     public List<FixedSalary> getFixedSalaryEmployees() {
-        return employees;
+        return new ArrayList<>(employees);
     }
 
     @Override

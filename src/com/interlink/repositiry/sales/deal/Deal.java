@@ -4,6 +4,7 @@ import com.interlink.employee.manager.Salesman;
 import com.interlink.product.Product;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Deal {
@@ -25,7 +26,7 @@ public class Deal {
     }
 
     public List<Product> getProducts() {
-        return products;
+        return new ArrayList<>(products);
     }
 
     public LocalDate getDate() {

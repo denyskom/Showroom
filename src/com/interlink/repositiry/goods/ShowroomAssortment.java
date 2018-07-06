@@ -15,7 +15,7 @@ public class ShowroomAssortment implements Assortment {
 
     @Override
     public List<AssortmentPosition> getAssortment() {
-        return assortmentPositions;
+        return new ArrayList<>(assortmentPositions);
     }
 
     @Override

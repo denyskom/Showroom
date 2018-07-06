@@ -1,12 +1,17 @@
 package com.interlink.main;
 
 
+import com.interlink.employee.Employee;
+import com.interlink.employee.fixed.FixedSalary;
+import com.interlink.employee.fixed.FixedSalaryEmployee;
 import com.interlink.employee.manager.Manager;
 import com.interlink.product.Car;
 import com.interlink.product.Product;
 import com.interlink.repositiry.sales.DealList;
 import com.interlink.repositiry.sales.ShowroomDealList;
 import com.interlink.repositiry.sales.deal.Deal;
+import com.interlink.repositiry.staff.ShowroomStaff;
+import com.interlink.repositiry.staff.Staff;
 import com.interlink.salary.PayrollSheet;
 
 import java.time.LocalDate;
@@ -19,6 +24,17 @@ public class Main {
         DealList dealList = new ShowroomDealList();
         Manager managerJon = new Manager(1,"Jon");
         Manager managerIgor = new Manager(2,"Igor");
+        Manager managerAndrey = new Manager(3,"Andrey");
+        Manager managerDima = new Manager(4,"Dima");
+
+        FixedSalaryEmployee fixedDart = new FixedSalaryEmployee(5, "Dart", 3000);
+        FixedSalaryEmployee fixedVayder = new FixedSalaryEmployee(5, "Vayder", 1000);
+
+        List<Employee> all = Arrays.asList(managerJon, managerIgor, managerAndrey, managerDima,
+                fixedDart,fixedVayder);
+
+        Staff staff = new ShowroomStaff();
+//        staff.hire();
 
         Product product = new Car("BMW", 1, 15000,"BMV", "Sedan");
 
@@ -36,6 +52,13 @@ public class Main {
                 Collections.singletonList(product),
                 LocalDate.now(),
                 managerJon));
+
+        dealList.addDeal(new Deal(4,
+                Collections.singletonList(product),
+                LocalDate.now(),
+                managerAndrey));
+
+
 
         PayrollSheet sheet = new PayrollSheet(dealList,null, null);
 
@@ -55,5 +78,13 @@ public class Main {
         topManagers.forEach(entry -> salaries.put(entry.getKey(), entry.getValue() + 1000));
 
         System.out.println(salaries);
+
+        List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5);
+        List<Integer> small = Arrays.asList(1, 2, 3);
+
+//        integers.;
+
+
+
     }
 }

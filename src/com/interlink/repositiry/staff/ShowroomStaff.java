@@ -15,7 +15,7 @@ public class ShowroomStaff implements Staff{
 
     @Override
     public List<Employee> getStuff() {
-        return employees;
+        return new ArrayList<>(employees);
     }
 
     @Override

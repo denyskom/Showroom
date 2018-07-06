@@ -18,7 +18,7 @@ public class ShowroomDealList implements DealList {
 
     @Override
     public List<Deal> getAllSales() {
-        return deals;
+        return new ArrayList<>(deals);
     }
 
     @Override
