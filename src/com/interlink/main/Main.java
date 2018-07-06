@@ -6,14 +6,8 @@ import com.interlink.employee.fixed.FixedSalaryEmployee;
 import com.interlink.employee.manager.Manager;
 import com.interlink.product.Car;
 import com.interlink.product.Product;
-import com.interlink.repositiry.salary.SalaryRange;
-import com.interlink.repositiry.salary.ShowroomSalaryRange;
-import com.interlink.repositiry.sales.DealList;
-import com.interlink.repositiry.sales.ShowroomDealList;
+import com.interlink.repositiry.goods.position.AssortmentPosition;
 import com.interlink.repositiry.sales.deal.Deal;
-import com.interlink.repositiry.staff.ShowroomStaff;
-import com.interlink.repositiry.staff.Staff;
-import com.interlink.salary.Bookkeeping;
 import com.interlink.service.ShowroomService;
 
 import java.time.LocalDate;
@@ -23,7 +17,6 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        DealList dealList = new ShowroomDealList();
         Manager managerJon = new Manager(1,"Jon");
         Manager managerIgor = new Manager(2,"Igor");
         Manager managerAndrey = new Manager(3,"Andrey");
@@ -36,12 +29,10 @@ public class Main {
                 LocalDate.now().minusMonths(2));
 
 
-        Staff staff = new ShowroomStaff();
-        SalaryRange fixedSalary = new ShowroomSalaryRange();
-
         Product product = new Car("BMW", 1, 15000,"BMV", "Sedan");
 
-        ShowroomService service = new ShowroomService(dealList,staff, fixedSalary);
+        ShowroomService service = new ShowroomService();
+        service.addPosition(new AssortmentPosition(1, product, 8));
 
         service.addDeal(new Deal(1,
                 Collections.singletonList(product),

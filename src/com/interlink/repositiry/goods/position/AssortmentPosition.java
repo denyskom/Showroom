@@ -7,7 +7,7 @@ public class AssortmentPosition {
     private int quantity;
     private Product product;
 
-    public AssortmentPosition(int quantity, Product product, int id) {
+    public AssortmentPosition(int id, Product product, int quantity) {
         this.quantity = quantity;
         this.product = product;
         this.id = id;

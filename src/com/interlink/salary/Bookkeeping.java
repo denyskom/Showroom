@@ -5,7 +5,6 @@ import com.interlink.repositiry.salary.SalaryRange;
 import com.interlink.repositiry.sales.DealList;
 import com.interlink.repositiry.sales.deal.Deal;
 import com.interlink.repositiry.staff.Staff;
-import javafx.collections.transformation.SortedList;
 
 import java.time.Month;
 import java.util.*;
@@ -54,7 +53,7 @@ public class Bookkeeping {
 
     private Map<Integer, Double> countManagerSalary(Month month, int year) {
         Map<Integer, Double> profit = dealList.getDealsByMonth(month, year)
-                .stream()
+                .stream().filter(Deal::isValid)
                 .collect(Collectors.groupingBy(
                         deal -> deal.getSeller().getSalesmanId(),
                         Collectors.summingDouble(Deal::getTotalPrice)));
