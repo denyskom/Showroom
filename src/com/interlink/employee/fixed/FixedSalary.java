@@ -1,5 +1,7 @@
 package com.interlink.employee.fixed;
 
+import com.interlink.employee.Employee;
+
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -18,4 +20,6 @@ public interface FixedSalary{
     LocalDate getStartDate();
 
     Optional<LocalDate> getEndDate();
+
+    Employee employeeValue();
 }

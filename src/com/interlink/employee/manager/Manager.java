@@ -13,4 +13,9 @@ public class Manager extends Employee implements Salesman {
     public int getSalesmanId() {
         return getEmployeeId();
     }
+
+    @Override
+    public Employee employeeValue() {
+        return super.employeeValue();
+    }
 }

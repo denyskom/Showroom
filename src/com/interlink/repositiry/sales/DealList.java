@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DealList {
-    List<Deal> getAllSales();
+    List<Deal> getAllDeals();
 
     Optional<Deal> getDealById(int id);
 

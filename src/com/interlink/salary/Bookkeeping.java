@@ -11,7 +11,7 @@ import java.time.Month;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class PayrollSheet {
+public class Bookkeeping {
     private DealList dealList;
     private Staff staff;
     private SalaryRange salaryRange;
@@ -20,7 +20,7 @@ public class PayrollSheet {
     private double reward = 1000;
 
 
-    public PayrollSheet(DealList dealList, Staff staff, SalaryRange salaryRange) {
+    public Bookkeeping(DealList dealList, Staff staff, SalaryRange salaryRange) {
         this.dealList = dealList;
         this.staff = staff;
         this.salaryRange = salaryRange;
@@ -52,7 +52,7 @@ public class PayrollSheet {
         return salaryReport;
     }
 
-    public Map<Integer, Double> countManagerSalary(Month month, int year) {
+    private Map<Integer, Double> countManagerSalary(Month month, int year) {
         Map<Integer, Double> profit = dealList.getDealsByMonth(month, year)
                 .stream()
                 .collect(Collectors.groupingBy(
@@ -62,6 +62,23 @@ public class PayrollSheet {
         HashMap<Integer, Double> profitCopy = new HashMap<>(profit);
         profit.forEach((key, value) ->
                 profitCopy.put(key, (value / 100) * managerPercent));
+
+        List<Map.Entry<Integer, Double>> topManagers = profitCopy.entrySet().stream()
+                .sorted(Comparator.comparingDouble(Map.Entry::getValue))
+                .collect(Collectors.toList());
+
+        if(topManagers.size() > rewordCount) {
+            topManagers = topManagers.stream()
+                    .skip(profitCopy.size() - rewordCount)
+                    .collect(Collectors.toList());
+        }
+
+        System.out.println(topManagers);
+
+        topManagers.forEach(entry -> profitCopy.put(entry.getKey(),
+                entry.getValue() + reward));
+
+
         return profitCopy;
     }
 
@@ -71,13 +88,6 @@ public class PayrollSheet {
                 .forEach(salary -> salaries.put(salary.getEmployeeId(),
                         salary.getSalary()));
 
-
-        List<Map.Entry<Integer, Double>> topManagers = salaries.entrySet().stream()
-                .sorted(Comparator.comparingDouble(Map.Entry::getValue))
-                .skip(salaries.size() - rewordCount).collect(Collectors.toList());
-
-        topManagers.forEach(entry -> salaries.put(entry.getKey(),
-                entry.getValue() + reward));
         return salaries;
     }
 

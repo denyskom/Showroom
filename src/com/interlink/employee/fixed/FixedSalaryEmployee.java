@@ -8,12 +8,17 @@ import java.util.Optional;
 
 public class FixedSalaryEmployee extends Employee implements FixedSalary {
     private double salary;
-    private LocalDate startDate;
-    private Optional<LocalDate> endDate;
     public FixedSalaryEmployee(int id, String fullName, double salary) {
         super(id, fullName, SalaryType.FIXED);
         this.salary = salary;
         this.startDate = LocalDate.now().plusMonths(1).withDayOfMonth(1);
+    }
+
+    public FixedSalaryEmployee(int id, String fullName, double salary, LocalDate startDate) {
+        super(id, fullName, SalaryType.FIXED);
+        this.salary = salary;
+        this.startDate = startDate.withDayOfMonth(1);
+        super.setPost("default");
     }
 
     @Override
@@ -33,11 +38,16 @@ public class FixedSalaryEmployee extends Employee implements FixedSalary {
 
     @Override
     public LocalDate getStartDate() {
-        return startDate;
+        return super.getStartDate();
     }
 
     @Override
     public Optional<LocalDate> getEndDate() {
-        return endDate;
+        return super.getEndDate();
+    }
+
+    @Override
+    public Employee employeeValue() {
+        return super.employeeValue();
     }
 }

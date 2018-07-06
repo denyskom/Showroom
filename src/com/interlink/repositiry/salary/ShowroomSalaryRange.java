@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 public class ShowroomSalaryRange implements SalaryRange {
     private List<FixedSalary> employees;
 
-    public ShowroomSalaryRange(List<FixedSalary> employees) {
-        this.employees = employees;
+    public ShowroomSalaryRange() {
+        this.employees = new ArrayList<>();
     }
 
     @Override
@@ -51,6 +51,7 @@ public class ShowroomSalaryRange implements SalaryRange {
     @Override
     public List<FixedSalary> getFixedSalaryByMonth(Month month, int year) {
         LocalDate startOfPeriod = LocalDate.of(year, month, 1);
+
         return employees.stream().filter(employee -> {
             if(employee.getEndDate().isPresent()) {
                 if(startOfPeriod.isAfter(employee.getEndDate().get())) {
