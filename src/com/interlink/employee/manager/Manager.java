@@ -8,4 +8,9 @@ public class Manager extends Employee implements Salesman {
         super(id, fullName, SalaryType.PERCENTAGE);
         super.post = "Manager";
     }
+
+    @Override
+    public int getSalesmanId() {
+        return getEmployeeId();
+    }
 }

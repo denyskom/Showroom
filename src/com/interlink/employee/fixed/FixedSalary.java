@@ -1,8 +1,11 @@
 package com.interlink.employee.fixed;
 
+import java.time.LocalDate;
+import java.util.Optional;
+
 public interface FixedSalary{
 
-    int getId();
+    int getEmployeeId();
 
     double getSalary();
 
@@ -11,4 +14,8 @@ public interface FixedSalary{
     void setSalary(double salary);
 
     String getPost();
+
+    LocalDate getStartDate();
+
+    Optional<LocalDate> getEndDate();
 }

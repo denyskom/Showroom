@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class ShowroomSalesList implements SalesList{
+public class ShowroomDealList implements DealList {
 
     private List<Deal> deals;
 
-    public ShowroomSalesList() {
+    public ShowroomDealList() {
         this.deals = new ArrayList<>();
     }
 
@@ -31,7 +31,7 @@ public class ShowroomSalesList implements SalesList{
     @Override
     public List<Deal> getDealsBySellerId(int id) {
         return deals.stream()
-                .filter(deal -> deal.getSeller().getId() == id)
+                .filter(deal -> deal.getSeller().getSalesmanId() == id)
                 .collect(Collectors.toList());
     }
 
@@ -41,10 +41,11 @@ public class ShowroomSalesList implements SalesList{
     }
 
     @Override
-    public List<Deal> getDealsByMonth(Month month) {
+    public List<Deal> getDealsByMonth(Month month, int year) {
         return deals.stream()
                 .filter(deal ->
-                        deal.getDate().getMonth().equals(month))
+                        deal.getDate().getMonth().equals(month)
+                                && deal.getDate().getYear() == year)
                 .collect(Collectors.toList());
     }
 }

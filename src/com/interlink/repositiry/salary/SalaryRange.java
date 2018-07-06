@@ -2,6 +2,7 @@ package com.interlink.repositiry.salary;
 
 import com.interlink.employee.fixed.FixedSalary;
 
+import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,4 +16,6 @@ public interface SalaryRange {
     void fire(int employeeId);
 
     void updateEmployee(FixedSalary employee);
+
+    List<FixedSalary> getFixedSalaryByMonth(Month month, int year);
 }

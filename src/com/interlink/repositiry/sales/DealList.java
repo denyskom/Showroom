@@ -6,7 +6,7 @@ import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
-public interface SalesList {
+public interface DealList {
     List<Deal> getAllSales();
 
     Optional<Deal> getDealById(int id);
@@ -15,6 +15,6 @@ public interface SalesList {
 
     void addDeal(Deal deal);
 
-    List<Deal> getDealsByMonth(Month month);
+    List<Deal> getDealsByMonth(Month month, int year);
 
 }

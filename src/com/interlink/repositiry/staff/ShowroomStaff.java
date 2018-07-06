@@ -21,7 +21,7 @@ public class ShowroomStaff implements Staff{
     @Override
     public Optional<Employee> findEmployeeById(int id) {
         return employees.stream()
-                .filter(employee -> employee.getId() == id).findAny();
+                .filter(employee -> employee.getEmployeeId() == id).findAny();
     }
 
     @Override

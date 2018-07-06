@@ -22,7 +22,7 @@ public abstract class Employee {
         return salaryType;
     }
 
-    public int getId() {
+    public int getEmployeeId() {
         return id;
     }
 
