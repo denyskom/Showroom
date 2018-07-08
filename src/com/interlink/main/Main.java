@@ -1,13 +1,13 @@
 package com.interlink.main;
 
 
-import com.interlink.employee.Employee;
 import com.interlink.employee.fixed.FixedSalaryEmployee;
 import com.interlink.employee.manager.Manager;
 import com.interlink.product.Car;
 import com.interlink.product.Product;
 import com.interlink.repositiry.goods.position.AssortmentPosition;
 import com.interlink.repositiry.sales.deal.Deal;
+import com.interlink.salary.Salary;
 import com.interlink.service.ShowroomService;
 
 import java.time.LocalDate;
@@ -17,6 +17,12 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
+        ShowroomService service = generateDemoService();
+        List<Salary> julyReport = service.getSalaryReport(Month.JULY, 2018);
+        julyReport.forEach(salary -> System.out.println(salary.getEmployee() + "  Salary: " + salary.getSalary()));
+    }
+
+    private static ShowroomService generateDemoService() {
         Manager managerJon = new Manager(1,"Jon");
         Manager managerIgor = new Manager(2,"Igor");
         Manager managerAndrey = new Manager(3,"Andrey");
@@ -32,7 +38,7 @@ public class Main {
         Product product = new Car("BMW", 1, 15000,"BMV", "Sedan");
 
         ShowroomService service = new ShowroomService();
-        service.addPosition(new AssortmentPosition(1, product, 8));
+        service.addPosition(new AssortmentPosition(1, product, 9));
 
         service.addDeal(new Deal(1,
                 Collections.singletonList(product),
@@ -87,7 +93,6 @@ public class Main {
         service.hire(fixedDart);
         service.hire(fixedVayder);
 
-        Map<Employee, Double> julyReport = service.getSalaryReport(Month.JULY, 2018);
-        julyReport.forEach((key, value) -> System.out.println(key + "  Salary: " + value));
+        return service;
     }
 }

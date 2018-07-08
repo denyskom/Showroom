@@ -37,74 +37,86 @@ public class Bookkeeping {
         this.rewordCount = rewordCount;
     }
 
-    public Map<Employee, Double> getSalaryReport(Month month, int year) {
-        Map<Employee, Double> salaryReport = willBePaid(month, year);
-        List<Employee> stuff = staff.getStuff();
-        stuff.removeAll(
-                salaryReport.entrySet().stream()
-                        .map(Map.Entry::getKey)
-                        .collect(Collectors.toList()));
-
-        stuff.forEach(employee -> salaryReport.put(employee, (double) 0));
-
-
+    public List<Salary> getSalaryReport(Month month, int year) {
+        List<Salary> salaryReport = getEmployeesWithPositiveSalary(month, year);
+        addZeroSalaryEmployees(salaryReport);
         return salaryReport;
     }
 
-    private Map<Integer, Double> countManagerSalary(Month month, int year) {
-        Map<Integer, Double> profit = dealList.getDealsByMonth(month, year)
-                .stream().filter(Deal::isValid)
-                .collect(Collectors.groupingBy(
-                        deal -> deal.getSeller().getSalesmanId(),
-                        Collectors.summingDouble(Deal::getTotalPrice)));
-
-        HashMap<Integer, Double> profitCopy = new HashMap<>(profit);
-        profit.forEach((key, value) ->
-                profitCopy.put(key, (value / 100) * managerPercent));
-
-        List<Map.Entry<Integer, Double>> topManagers = profitCopy.entrySet().stream()
-                .sorted(Comparator.comparingDouble(Map.Entry::getValue))
-                .collect(Collectors.toList());
-
-        if(topManagers.size() > rewordCount) {
-            topManagers = topManagers.stream()
-                    .skip(profitCopy.size() - rewordCount)
-                    .collect(Collectors.toList());
-        }
-
-        System.out.println(topManagers);
-
-        topManagers.forEach(entry -> profitCopy.put(entry.getKey(),
-                entry.getValue() + reward));
-
-
-        return profitCopy;
+    private List<Salary> getEmployeesWithPositiveSalary(Month month, int year) {
+        List<Salary> paidByEmployee = countFixedEmployeeSalary(month, year);
+        paidByEmployee.addAll(countManagerSalary(month, year));
+        return paidByEmployee;
     }
 
-    private Map<Integer, Double> countFixedSalary(Month month, int year) {
-        Map<Integer, Double> salaries = new HashMap<>();
+    private void addZeroSalaryEmployees(List<Salary> salaryReport) {
+        List<Employee> stuff = staff.getStuff();
+        stuff.removeAll(
+                salaryReport.stream()
+                        .map(Salary::getEmployee)
+                        .collect(Collectors.toList()));
+
+        stuff.forEach(employee -> salaryReport.add(new Salary(employee,0)));
+    }
+
+    private List<Salary> countFixedEmployeeSalary(Month month, int year) {
+        List<Salary> salaries = new ArrayList<>();
         salaryRange.getFixedSalaryByMonth(month,year)
-                .forEach(salary -> salaries.put(salary.getEmployeeId(),
-                        salary.getSalary()));
+                .forEach(salaryRecord ->
+                        salaries.add(new Salary(salaryRecord.employeeValue(), salaryRecord.getSalary())));
 
         return salaries;
     }
 
-    private Map<Employee, Double> willBePaid(Month month, int year) {
+    private List<Salary> countManagerSalary(Month month, int year) {
+        Map<Integer, Double> profit = getManagersProfitMappedById(month, year);
+        List<Salary> managersSalary = mapSalaryByEmployee(getManagersSalaryWithoutBonuses(profit));
+        giveBonusesToTopManagers(managersSalary);
 
-        Map<Integer, Double> paidById = countFixedSalary(month, year);
-        paidById.putAll(countManagerSalary(month, year));
-
-        Map<Employee, Double> paidByEmployee = new HashMap<>();
-        List<Employee> staffList = staff.getStuff();
-
-        paidById.forEach((key, value) -> staffList.stream()
-                .filter(employee ->
-                        employee.getEmployeeId() == key)
-                .findFirst()
-                .ifPresent(employee ->
-                        paidByEmployee.put(employee, value)));
-
-        return paidByEmployee;
+        return managersSalary;
     }
+
+    private void giveBonusesToTopManagers(List<Salary> managersSalary) {
+        List<Salary> sortedManagersSalary = managersSalary.stream()
+                .sorted(Comparator.comparingDouble(Salary::getSalary))
+                .collect(Collectors.toList());
+
+        List<Salary>topManagersSalary = getTopManagersSalary(sortedManagersSalary);
+        topManagersSalary.forEach(salary -> salary.addBonus(reward));
+    }
+
+    private List<Salary> getTopManagersSalary(List<Salary> sortedManagersSalary) {
+        if(sortedManagersSalary.size() > rewordCount) {
+            return sortedManagersSalary.stream()
+                    .skip(sortedManagersSalary.size() - rewordCount)
+                    .collect(Collectors.toList());
+        }
+        return sortedManagersSalary;
+    }
+
+    private Map<Integer, Double> getManagersProfitMappedById(Month month, int year) {
+        return dealList.getDealsByMonth(month, year)
+                .stream().filter(Deal::isValid)
+                .collect(Collectors.groupingBy(
+                        deal -> deal.getSeller().getSalesmanId(),
+                        Collectors.summingDouble(Deal::getTotalPrice)));
+    }
+
+
+    private List<Salary> mapSalaryByEmployee(Map<Integer, Double> salaryMappedById) {
+        return salaryMappedById.entrySet().stream()
+                .filter(salaryById -> staff.findEmployeeById(salaryById.getKey()).isPresent())
+                .map(salaryById ->
+                        new Salary(staff.findEmployeeById(salaryById.getKey()).get(),
+                                salaryById.getValue())).collect(Collectors.toList());
+    }
+
+
+    private Map<Integer, Double> getManagersSalaryWithoutBonuses(Map<Integer, Double> profit) {
+        Map<Integer, Double> profitCopy = new HashMap<>(profit);
+        profit.forEach((managerId, managerProfit) ->
+                profitCopy.put(managerId, (managerProfit / 100) * managerPercent));
+        return profitCopy;
+    }
+
 }

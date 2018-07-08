@@ -15,6 +15,7 @@ import com.interlink.repositiry.sales.deal.Deal;
 import com.interlink.repositiry.staff.ShowroomStaff;
 import com.interlink.repositiry.staff.Staff;
 import com.interlink.salary.Bookkeeping;
+import com.interlink.salary.Salary;
 
 import java.time.Month;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class ShowroomService {
         staff.hire(manager.employeeValue());
     }
 
-    public Map<Employee, Double> getSalaryReport(Month month, int year) {
+    public List<Salary> getSalaryReport(Month month, int year) {
         return bookkeeping.getSalaryReport(month, year);
     }
 
@@ -102,9 +103,6 @@ public class ShowroomService {
         });
 
         deals.addDeal(deal);
-
-        assortment.getAssortment().forEach(position ->
-                System.out.println("Name " + position.getProduct().getName() + " Quantity: " + position.getQuantity()));
     }
 
     public void addPosition(AssortmentPosition position) {
