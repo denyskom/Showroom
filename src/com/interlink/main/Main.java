@@ -66,21 +66,16 @@ public class Main {
                 managerAndrey));
 
         service.addDeal(new Deal(6,
-                Collections.singletonList(product),
+                Arrays.asList(product, product),
                 LocalDate.now(),
                 managerJon));
 
         service.addDeal(new Deal(7,
                 Collections.singletonList(product),
                 LocalDate.now(),
-                managerJon));
-
-        service.addDeal(new Deal(8,
-                Collections.singletonList(product),
-                LocalDate.now(),
                 managerVasia));
 
-        service.addDeal(new Deal(9,
+        service.addDeal(new Deal(8,
                 Collections.singletonList(product),
                 LocalDate.now().minusMonths(2),
                 managerIgor));

@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ShowroomService {
     private DealList deals;
@@ -80,18 +81,9 @@ public class ShowroomService {
         if(products.isEmpty()) {
             return;
         }
-        Map<Integer, Integer> productsCountById = new HashMap<>();
-        products.forEach(product -> {
-            int productId = product.getId();
+        Map<Integer, Long> productsCountMappedById = getProductCountMappedById(products);
 
-            if(productsCountById.containsKey(productId)) {
-               productsCountById.put(productId,
-                       productsCountById.get(productId));
-           }
-           productsCountById.put(productId, 1);
-        });
-
-        productsCountById.forEach((productId, quantityNeeded) -> {
+        productsCountMappedById.forEach((productId, quantityNeeded) -> {
             Optional<AssortmentPosition> position = assortment.getPositionById(productId);
             if(!position.isPresent() || position.get().getQuantity() <= quantityNeeded) {
                 deal.setValid(false);
@@ -99,10 +91,15 @@ public class ShowroomService {
                 return;
             }
 
-            position.get().salePosition(quantityNeeded);
+            position.get().salePosition(Math.toIntExact(quantityNeeded));
         });
 
         deals.addDeal(deal);
+    }
+
+    private Map<Integer, Long> getProductCountMappedById(List<Product> products) {
+        return products.stream()
+                .collect(Collectors.groupingBy(Product::getId, Collectors.counting()));
     }
 
     public void addPosition(AssortmentPosition position) {
