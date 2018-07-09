@@ -31,7 +31,7 @@ public class ShowroomDealList implements DealList {
     @Override
     public List<Deal> getDealsBySellerId(int id) {
         return deals.stream()
-                .filter(deal -> deal.getSeller().getSalesmanId() == id)
+                .filter(deal -> deal.getSeller().getEmployeeId() == id)
                 .collect(Collectors.toList());
     }
 

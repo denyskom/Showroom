@@ -98,7 +98,7 @@ public class Bookkeeping {
         return dealList.getDealsByMonth(month, year)
                 .stream().filter(Deal::isValid)
                 .collect(Collectors.groupingBy(
-                        deal -> deal.getSeller().getSalesmanId(),
+                        deal -> deal.getSeller().getEmployeeId(),
                         Collectors.summingDouble(Deal::getTotalPrice)));
     }
 

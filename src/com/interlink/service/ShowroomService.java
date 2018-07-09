@@ -2,7 +2,7 @@ package com.interlink.service;
 
 import com.interlink.employee.Employee;
 import com.interlink.employee.fixed.FixedSalary;
-import com.interlink.employee.manager.Salesman;
+import com.interlink.employee.manager.Manager;
 import com.interlink.product.Product;
 import com.interlink.repositiry.goods.Assortment;
 import com.interlink.repositiry.goods.ShowroomAssortment;
@@ -18,7 +18,6 @@ import com.interlink.salary.Bookkeeping;
 import com.interlink.salary.Salary;
 
 import java.time.Month;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -44,8 +43,8 @@ public class ShowroomService {
         salaryRange.hire(fixedSalary);
     }
 
-    public void hire(Salesman manager) {
-        staff.hire(manager.employeeValue());
+    public void hire(Manager manager) {
+        staff.hire(manager);
     }
 
     public List<Salary> getSalaryReport(Month month, int year) {

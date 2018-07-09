@@ -1,6 +1,6 @@
 package com.interlink.repositiry.sales.deal;
 
-import com.interlink.employee.manager.Salesman;
+import com.interlink.employee.Employee;
 import com.interlink.product.Product;
 
 import java.time.LocalDate;
@@ -11,10 +11,10 @@ public class Deal {
     private final int id;
     private List<Product> products;
     private LocalDate date;
-    private Salesman seller;
+    private Employee seller;
     private boolean valid = true;
 
-    public Deal(int id, List<Product> products, LocalDate date, Salesman seller) {
+    public Deal(int id, List<Product> products, LocalDate date, Employee seller) {
         this.id = id;
         this.products = products;
         this.date = date;
@@ -33,7 +33,7 @@ public class Deal {
         return date;
     }
 
-    public Salesman getSeller() {
+    public Employee getSeller() {
         return seller;
     }
 
